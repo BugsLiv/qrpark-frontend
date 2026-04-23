@@ -1,68 +1,64 @@
-// src/app/(dashboard)/account-settings/page.tsx
-import { MdContactMail } from "react-icons/md";
-
-
 export default function AccountSettingsPage() {
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
-          <h1 className="text-xl font-bold text-gray-800">Account Settings</h1>
-          <p className="text-sm text-gray-500">Manage your profile and preferences</p>
+    <div className="p-6 w-full">
+      <h1 className="text-2xl font-bold text-primary mb-6" style={{ fontFamily: "Georgia, serif" }}>
+        Account Settings
+      </h1>
+
+      <div className="bg-background rounded-xl border border-gray-200 p-8">
+        {/* Full Name */}
+        <div className="mb-4">
+          <label className="block text-sm font-semibold text-primary mb-1">Full Name</label>
+          <input
+            type="text"
+            placeholder="Phone Number"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
+          />
         </div>
 
-        <div className="p-6 space-y-6">
-          <div className="flex items-center gap-4 pb-4 border-b border-gray-100">
-            <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
-              MA
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-800">Muhammad Ali</h3>
-              <p className="text-sm text-gray-500">Premium Member since 2024</p>
-              <button className="text-xs text-buttonbg hover:underline">Change Avatar</button>
-            </div>
-          </div>
+        {/* Phone Number */}
+        <div className="mb-4">
+          <label className="block text-sm font-semibold text-primary mb-1">Phone Number</label>
+          <input
+            type="text"
+            placeholder="OTP required to login"
+            className="w-full px-3 py-2 border bg-white border-gray-300 rounded-md text-sm text-gray-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
+          />
+        </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
-              <MdContactMail size={18} className="text-gray-400" />
-              <div className="flex-1">
-                <label className="block text-xs text-gray-500">Full Name</label>
-                <p className="text-gray-800 font-medium">Muhammad Ali</p>
-              </div>
-              <button className="text-sm text-buttonbg">Edit</button>
-            </div>
-            <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
-              <MdContactMail size={18} className="text-gray-400" />
-              <div className="flex-1">
-                <label className="block text-xs text-gray-500">Email Address</label>
-                <p className="text-gray-800 font-medium">m.ali@example.com</p>
-              </div>
-              <button className="text-sm text-buttonbg">Edit</button>
-            </div>
-            <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
-              <MdContactMail size={18} className="text-gray-400" />
-              <div className="flex-1">
-                <label className="block text-xs text-gray-500">Phone Number</label>
-                <p className="text-gray-800 font-medium">+92 312 3456789</p>
-              </div>
-              <button className="text-sm text-buttonbg">Edit</button>
-            </div>
-            <div className="flex items-center gap-3">
-              <MdContactMail size={18} className="text-gray-400" />
-              <div className="flex-1">
-                <label className="block text-xs text-gray-500">Password</label>
-                <p className="text-gray-800 font-medium">••••••••</p>
-              </div>
-              <button className="text-sm text-buttonbg">Change</button>
-            </div>
-          </div>
+        {/* Email */}
+        <div className="mb-5">
+          <label className="block text-sm font-semibold text-primary mb-1">Email</label>
+          <input
+            type="text"
+            placeholder="Company, Optional"
+            className="w-full px-3 py-2 border bg-white border-gray-300 rounded-md text-sm text-gray-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
+          />
+        </div>
 
-          <div className="pt-4 border-t border-gray-100">
-            <button className="bg-primary text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-primary/90">
-              Save Changes
-            </button>
-          </div>
+        {/* Password Section */}
+        <div className="mb-2">
+          <p className="text-sm text-primary mb-3">Update your password using the fields below:</p>
+          <input
+            type="password"
+            placeholder="New Password"
+            className="w-full px-3 py-2 border bg-white border-gray-300 rounded-md text-sm text-gray-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none mb-3"
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="w-full px-3 py-2 border bg-white border-gray-300 rounded-md text-sm text-gray-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
+          />
+        </div>
+
+        {/* Buttons */}
+        <div className="flex gap-3 mt-6">
+          <button className=" bg-buttonbg hover:bg-buttonbg/90 text-white font-semibold py-2 px-30 rounded-md text-sm">
+            Save Changes
+          </button>
+          <button className=" border border-gray-300 text-gray-600 hover:bg-gray-50 font-normal px-20 py-2 rounded-md text-sm">
+            Comments
+          </button>
         </div>
       </div>
     </div>

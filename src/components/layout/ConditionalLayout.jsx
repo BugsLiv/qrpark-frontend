@@ -4,6 +4,7 @@
 import { usePathname } from "next/navigation";
 import Footer from "./Footer";
 import DashboardHeader from "./DashboardHeader";
+import Header from "./Header";
 
 
 
@@ -14,9 +15,11 @@ export default function ConditionalLayout({children}) {
 
   return (
     <>
-      {isDashboard && <DashboardHeader />}
+      {isDashboard ? <DashboardHeader />:<Header/>}
       <main className="flex-1">{children}</main>
-      {isDashboard && <Footer />}
+      {/* {!isDashboard && <Footer />} */}
+      <Footer />
+
     </>
   );
 }

@@ -14,9 +14,11 @@ body {
   --color-primary-light: #2C6CB0;
   --color-accent: #2F80ED;
   --color-background: #F4F8FC;
+  --color-bgred: #b5454b;
   --color-success: #2DBE7E;
   --font-sans: var(--font-poppins);
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.1);
+  
 }
 
 /* @import "tailwindcss";
