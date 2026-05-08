@@ -1,10 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
 import { Poppins } from "next/font/google";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
-
+import { ReduxProvider } from "@/store/provider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -27,7 +27,24 @@ export default function RootLayout({ children }) {
           //  className="min-h-screen flex flex-col antialiased"
           className={`${poppins.variable} font-sans min-h-screen flex flex-col `}
            >
-                    <ConditionalLayout>{children}</ConditionalLayout>
+          <ReduxProvider>
+
+                    <ConditionalLayout>{children}
+
+                    <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="light"
+        />
+                    </ConditionalLayout>
+
+      
+                    </ReduxProvider>
          {/* <Header/>
          <main className="flex-1">
           {children}

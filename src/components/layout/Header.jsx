@@ -16,7 +16,11 @@ export default function Header() {
                 How it Works
                 {/* </a> */}
             </Link>
-            <a href="#faq" className="hover:text-teal-300">FAQs</a>
+            <Link href={"/faq"}>
+
+
+   FAQs
+   </Link>
             <Link href="/login">
             <button className="rounded-full bg-buttonbg px-6 py-2 font-semibold hover:bg-teal-600">
             Login

@@ -1,14 +1,17 @@
-// src/app/(dashboard)/page.tsx
+
 "use client";
 
 import { MdContactMail } from "react-icons/md";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { LuTruck } from "react-icons/lu";
 import { IoMdSettings } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchVehicles } from "@/store/slices/vehicleSlice";
 
 const vehicles = [
   { id: 1, image:"/car.jpeg", name: "Civic", plate: "ABC-1234", status: "Do not enter" },
@@ -20,7 +23,17 @@ const Tabs = [
   { name: "Account Settings", href: "/dashboard/account-settings", icon: IoMdSettings },
 ];
 export default function DashboardPage() {
+  const dispatch = useDispatch();
+
+  const { loading, error, vehicles } = useSelector((state) => state.vehicle);
+  const [page, setPage] = useState(1);
+const limit = 5;
     const pathname = usePathname();
+    const router =useRouter()
+    useEffect(()=>{
+dispatch(fetchVehicles({ page, limit }))
+    },[dispatch, page])
+    console.log("loading, error, vehicles",loading, error, vehicles)
   
   return (
     <>
@@ -37,7 +50,6 @@ export default function DashboardPage() {
               <Link
                 key={item.name}
                 href={item.href}
-                // onClick={onClose} // close sidebar on navigation (mobile)
                 className={`flex items-center gap-3 px-4 py-3 hover:bg-primary  transition ${
                   active
                     ? "bg-primary text-white font-semibold"
@@ -82,21 +94,23 @@ export default function DashboardPage() {
       <div className="flex flex-col border border-slate-300 mt-2 shadow-soft">
     
 {
-  vehicles?.map((vehicle)=>{
+  vehicles?.data?.map((vehicle)=>{
     return(
       <div key={vehicle.id} className="flex justify-between border-b border-slate-300 p-4">
         <div className="flex items-center gap-4">
-          <Image src={vehicle.image} width={100} height={100} alt="Car"/>
-          <p className="font-bold text-primary">{vehicle?.name}</p>
+          <Image src={"/car.jpeg"} width={100} height={100} alt="Car"/>
+          <p className="font-bold text-primary">{vehicle?.vehicleMake}</p>
           <div className="border border-primary px-2">
-            <p className="text-primary text-xs">{vehicle?.plate}</p>
+            <p className="text-primary text-xs">{vehicle?.licensePlate}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
           <button className="rounded-sm text-white bg-primary px-6 py-2  hover:bg-teal-600">
             View QR Code
           </button>
-          <button className="rounded-sm flex gap-2 items-center text-white bg-buttonbg px-6 py-2  hover:bg-teal-600">
+          <button onClick={()=>{
+            router.push(`/dashboard/managevehicle?id=${vehicle._id}`)
+          }} className="rounded-sm cursor-pointer flex gap-2 items-center text-white bg-buttonbg px-6 py-2  hover:bg-teal-600">
             Manage
             <IoIosArrowDown className="text-white "/>
 
@@ -107,7 +121,27 @@ export default function DashboardPage() {
   })
 }
       </div>
+      <div className="flex items-center justify-between mt-6">
+  <button
+    disabled={page === 1}
+    onClick={() => setPage((prev) => prev - 1)}
+    className="px-4 py-2 bg-buttonbg rounded disabled:opacity-50 text-white"
+  >
+    Previous
+  </button>
 
+  <span className="text-primary font-bold">
+    Page {page}
+  </span>
+
+  <button
+    disabled={vehicles?.meta?.totalPages === page}
+    onClick={() => setPage((prev) => prev + 1)}
+    className="px-4 py-2 bg-buttonbg rounded disabled:opacity-50 text-white"
+  >
+    Next
+  </button>
+</div>
       <div className="bg-gradient-to-br from-amber-50 to-orange-50 flex gap-4 items-center rounded-sm p-4 mt-4 ">
             <MdContactMail className="text-amber-600 " size={28} />
            <div>

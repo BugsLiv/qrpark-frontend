@@ -10,7 +10,6 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="h-full antialiased bg-background">
-      {/* Hamburger button - visible only on mobile */}
       <button
         onClick={() => setSidebarOpen(true)}
         className="fixed top-4 left-4 z-30 p-2 bg-white rounded-md shadow-md lg:hidden"
