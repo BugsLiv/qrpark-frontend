@@ -15,3 +15,7 @@ export const updateVehicleApi = async ({id,data}) => {
   const response = await axiosInstance.put(`vehicles/${id}`,data);
   return response.data;
   };
+  export const fetchMessagesAPI = async (data) => {
+  const response = await axiosInstance.get(`/messages/my-messages?page=${data?.page}&limit=${data?.limit}`);
+  return response.data;
+};

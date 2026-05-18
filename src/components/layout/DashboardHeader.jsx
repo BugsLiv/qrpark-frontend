@@ -4,21 +4,42 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function DashboardHeader() {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const { user } = useSelector((state) => state.auth);
-
+console.log("user",user)
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-
+  const dropdownRef = useRef(null);
   useEffect(() => {
     setMounted(true);
   }, []);
 
+
+// Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
   if (!mounted) return null;
 
   const handleLogout = () => {
@@ -40,18 +61,19 @@ export default function DashboardHeader() {
           <Link href="/dashboard/add-vehicle">Add vehicle</Link>
           <Link href="/faq">FAQs</Link>
 
-          <Link href="/dashboard/account-settings">
+          {/* <Link href="/dashboard/account-settings">
             <button className="rounded-full bg-buttonbg px-6 py-2 font-semibold hover:bg-teal-600">
               Settings
             </button>
-          </Link>
+          </Link> */}
 
           {/* Profile Dropdown */}
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
 
             <button
               onClick={() => setOpen(!open)}
-              className="flex items-center gap-2 bg-white text-primary px-4 py-2 rounded-full font-medium"
+              className="rounded-full bg-buttonbg px-6 py-2 font-semibold hover:bg-teal-600"
+              // className="flex items-center gap-2 bg-white text-primary px-4 py-2 rounded-full font-medium"
             >
               {user?.name || "User"}
             </button>
@@ -60,7 +82,11 @@ export default function DashboardHeader() {
               <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg py-2 z-50">
 
                 <button
-                  onClick={() => router.push("/dashboard/account-settings")}
+                  onClick={() => {
+                    
+                    router.push("/dashboard/account-settings")
+                    setOpen(!open)
+                  }}
                   className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                 >
                   Profile

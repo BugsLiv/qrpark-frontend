@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchVehicleAPI } from "@/services/vehicleServices";
+import { fetchMessagesAPI, fetchVehicleAPI } from "@/services/vehicleServices";
 
 export const fetchVehicles = createAsyncThunk(
   "vehicles",
@@ -13,12 +13,29 @@ export const fetchVehicles = createAsyncThunk(
     }
   }
 );
+export const fetchMessages = createAsyncThunk(
+  "messages/fetchMessages",
 
+  async (data, thunkAPI) => {
+    try {
+      const response= await fetchMessagesAPI(data);
+      return response;
+
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message ||
+          "Failed to fetch messages"
+      );
+    }
+  }
+);
 
 const initialState = {
   vehicles: null,
+  messages:null,
   loading: false,
   error: null,
+  meta:{},
 };
 
 const vehicleSlice = createSlice({
@@ -41,6 +58,19 @@ const vehicleSlice = createSlice({
         // localStorage.setItem("userInfo", JSON.stringify(action.payload));
       })
       .addCase(fetchVehicles.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })      
+      .addCase(fetchMessages.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchMessages.fulfilled, (state, action) => {
+        state.loading = false;
+        state.messages = action.payload.data;
+        state.meta = action.payload.meta;
+        // localStorage.setItem("userInfo", JSON.stringify(action.payload));
+      })
+      .addCase(fetchMessages.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

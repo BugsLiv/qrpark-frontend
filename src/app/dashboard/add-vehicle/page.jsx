@@ -26,7 +26,7 @@ export default function AddVehiclePage() {
     vehicleColor: "",
     year: "",
     licensePlate: "",
-    qrToken: "",
+    // qrToken: "",
 
 
   });
@@ -58,7 +58,7 @@ export default function AddVehiclePage() {
           vehicleColor: vehicle?.vehicleColor?vehicle?.vehicleColor:"",
           year: vehicle?.year?vehicle?.year:"",
           licensePlate: vehicle?.licensePlate?vehicle?.licensePlate:"",
-          qrToken: vehicle?.qrToken?vehicle?.qrToken:"",
+          // qrToken: vehicle?.qrToken?vehicle?.qrToken:"",
         });
       }
     },[vehicle])
@@ -124,7 +124,7 @@ export default function AddVehiclePage() {
          vehicleColor: "",
          year: "",
          licensePlate: "",
-         qrToken: "",
+        //  qrToken: "",
        })
        setSelectedMakeOption(null);
        setSelectedModalOption(null)
@@ -224,7 +224,7 @@ export default function AddVehiclePage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block text-md font-medium text-gray-700 mb-1">QR Token</label>
              <input
               type="text"
@@ -234,7 +234,7 @@ export default function AddVehiclePage() {
               placeholder="e.g., Car , Truck etc"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none"
             />
-          </div>
+          </div> */}
           <button 
           disabled={loading}
           type="button" onClick={handleSubmit} className=" bg-buttonbg hover:bg-buttonbg/90 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2">

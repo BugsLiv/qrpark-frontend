@@ -3,9 +3,9 @@ import axios from "axios";
 // Create instance
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 axiosInstance.interceptors.request.use(

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUserAPI, registerUserAPI } from "@/services/authService";
+import { loginUserAPI, registerUserAPI, verifyOtpAPI } from "@/services/authService";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -15,9 +15,9 @@ export const registerUser = createAsyncThunk(
 );
 export const loginUser = createAsyncThunk(
     "auth/login",
-    async (userData, thunkAPI) => {
+    async (email, thunkAPI) => {
       try {
-        return await loginUserAPI(userData);
+        return await loginUserAPI(email);
       } catch (error) {
         return thunkAPI.rejectWithValue(
           error.response?.data?.message || error.message
@@ -25,11 +25,18 @@ export const loginUser = createAsyncThunk(
       }
     }
   );
+  export const verifyOtp = createAsyncThunk('auth/verifyOtp', async ({ email, otp }, thunkAPI) => {
+    try {
+      return await verifyOtpAPI({ email, otp });
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data?.message || 'Invalid OTP');
+    }
+  });
 
 const initialState = {
   user:
     typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("userInfo"))
+      ?JSON.parse(localStorage.getItem("userInfo"))
       : null,
   loading: false,
   error: null,
@@ -75,10 +82,22 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
-        localStorage.setItem("userInfo", JSON.stringify(action.payload));
+        state.user = action.payload.data;
+        // localStorage.setItem("userInfo", JSON.stringify(action.payload.data));
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(verifyOtp.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.data;
+        localStorage.setItem("userInfo", JSON.stringify(action.payload.data));
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

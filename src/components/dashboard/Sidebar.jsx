@@ -9,12 +9,15 @@ import { IoMdSettings } from "react-icons/io";
 import { MdOutlineAddIcCall } from "react-icons/md";
 import { MdContactEmergency } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
+import { FaMessage } from "react-icons/fa6";
 
 
 const navItems = [
   { name: "Dashboard", href: "/dashboard", icon: IoHomeOutline },
   { name: "Add Vehicle", href: "/dashboard/add-vehicle", icon: LuTruck },
   { name: "Account Settings", href: "/dashboard/account-settings", icon: IoMdSettings },
+  { name: "Messages", href: "/dashboard/messages", icon: FaMessage },
+
 ];
 
 export default function Sidebar({ isOpen, onClose }) {

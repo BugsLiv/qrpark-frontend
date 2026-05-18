@@ -8,14 +8,17 @@ import { LuLoaderPinwheel } from "react-icons/lu";
 import axiosInstance from "@/lib/axios";
 import { updateUser } from "@/store/slices/authSlice";
 import { toast } from "react-toastify";
-import Loading from "@/app/loading";
+import ConfirmationModal from "@/components/Common/ConfirmationModal";
 
 
 export default function AccountSettingsPage() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-
+  const [isOn, setIsOn] = useState(user?.phoneVisible);
+  console.log("isOn",isOn)
+  const [open, setOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -154,7 +157,41 @@ export default function AccountSettingsPage() {
       setLoading(false);
     }
   };
+  const handlePhoneVisibility=async ()=>{
+    try {
+      setLoading(true);
 
+      const payload = {
+        phoneVisible: !isOn,
+      };
+      const response = await axiosInstance.put(
+        "auth/phone-visibility",
+        payload
+      );
+      if(response?.data?.success){
+        setIsOn(!isOn)
+        dispatch(updateUser(response?.data?.data))
+           toast.success(response?.data?.message);
+      }else{
+        toast.error(response?.data?.message);
+
+      }
+   
+    } catch (error) {
+      console.log(error);
+      toast.error( error?.response?.data?.message ||
+        "Something went wrong");
+
+    } finally {
+      setLoading(false);
+    }
+  }
+  const handleSave = async () => {
+    setSaving(true);
+    await handlePhoneVisibility()
+    setSaving(false);
+    setOpen(false);
+  };
   return (
     <>
     <div className="p-6 w-full">
@@ -252,7 +289,24 @@ export default function AccountSettingsPage() {
             </p>
           )}
         </div>
-
+<div  className="mb-2">
+<label className="block text-sm font-semibold text-primary mb-1">
+            Phone Visibility
+          </label>
+<button
+onClick={() => setOpen(true)}
+      // onClick={() => setIsOn(!isOn)}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-buttonbg focus:ring-offset-2 ${
+        isOn ? 'bg-buttonbg' : 'bg-gray-200'
+      }`}
+    >
+      <span
+        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+          isOn ? 'translate-x-6' : 'translate-x-1'
+        }`}
+      />
+    </button>
+</div>
         {/* Password Section */}
         <div className="mb-2">
           <p className="text-sm text-primary mb-3">
@@ -367,8 +421,28 @@ export default function AccountSettingsPage() {
             Cancel
           </button>
         </div>
+      
       </div>
     </div>
+
+          <ConfirmationModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            title="Change Phone Visibility"
+            description={
+              <>
+                <p>Are you sure you want to change the QR Park phone visibility from {isOn && "Show"} to {isOn?"Hide":"Show"} associated with this vehicle?</p>
+                <p className="mt-3">The phone visibility changes will no longer allow anyone in the app to contact you.</p>
+              </>
+            }
+            confirmButton={{
+              label: 'Save Change',
+              variant: 'primary',
+              onClick: handleSave,
+              loading: saving,
+            }}
+            cancelLabel="Cancel"
+          />
     </>
   );
 }

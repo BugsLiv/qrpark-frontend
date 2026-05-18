@@ -32,8 +32,37 @@ console.log("response",response)
   },[id])
     const handleSave = async () => {
     setSaving(true);
+    await handleDownloadQR()
     setSaving(false);
     setOpen(false);
+  };
+  const handleDownloadQR = async () => {
+    try {
+      const imageUrl = vehicle?.qrImage;
+  
+      if (!imageUrl) {
+        alert("QR Image not found");
+        return;
+      }
+  
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+  
+      const url = window.URL.createObjectURL(blob);
+  
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${vehicle?.registrationNumber || "vehicle"}-qr.png`;
+  
+      document.body.appendChild(link);
+      link.click();
+  
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log("Download error:", error);
+      alert("Failed to download QR code");
+    }
   };
   return (
     <div className="w-full p-4">
@@ -88,14 +117,19 @@ console.log("response",response)
 </div>
 </div>
 <div className="border border-primary bg-primary-side p-2 px-6 flex gap-1 justify-between">
-    <div onClick={() => setOpen(true)}  className="flex cursor-pointer gap-2 items-center">
-        <FaCloudDownloadAlt size={24} className="text-primary"/>
-        <h3 className="text-primary text-lg">Download QR Code</h3>
+    <div 
+    
+    // onClick={handleDownloadQR}
+    onClick={() => setOpen(true)}  
+    
+    className="flex cursor-pointer gap-2 items-center hover:bg-buttonbg hover:text-white hover:rounded-md">
+        <FaCloudDownloadAlt size={24} className="text-primary  hover:text-white"/>
+        <h3 className="text-primary text-lg hover:bg-buttonbg hover:text-white">Download QR Code</h3>
 
     </div>
-    <div className="flex cursor-pointer gap-2 items-center">
-        <RiDeleteBin5Line size={24} className="text-bgred"/>
-        <h3 className="text-bgred text-lg">Delete QR Code</h3>
+    <div className="flex cursor-pointer gap-2 items-center hover:bg-buttonbg hover:text-white hover:rounded-md">
+        <RiDeleteBin5Line size={24} className="text-bgred hover:bg-buttonbg hover:text-white"/>
+        <h3 className="text-bgred text-lg hover:bg-buttonbg hover:text-white">Delete QR Code</h3>
 
     </div>
 
@@ -104,7 +138,7 @@ console.log("response",response)
 
 
     <div className="p-4 shadow-soft w-1/2 flex justify-center">
-        <Image src={"/downloadqr.png"} width={300} height={300} alt="downloadqr" />
+        <Image src={vehicle?.qrImage} width={300} height={300} alt="downloadqr" />
 
     </div>
 </div>
