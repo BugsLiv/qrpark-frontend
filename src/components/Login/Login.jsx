@@ -12,7 +12,7 @@ export default function Login() {
 
   const { loading, error,user } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
-
+  const [localStorageUserData, setLocalStorageUserData] = useState(null);
   const handleLogin = async () => {
     if (!email) {
       toast.error("Please enter your email");
@@ -37,7 +37,17 @@ export default function Login() {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") handleLogin();
   };
-  const localStorageUserData= JSON.parse(localStorage.getItem("userInfo"))
+  // const localStorageUserData= JSON.parse(localStorage.getItem("userInfo"))
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userInfo = localStorage.getItem("userInfo");
+
+      if (userInfo) {
+        setLocalStorageUserData(JSON.parse(userInfo));
+      }
+    }
+  }, []);
   useEffect(() => {
     if (user && localStorageUserData) {
       router.push("/dashboard");
