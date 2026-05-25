@@ -11,7 +11,9 @@ import { LuLoaderPinwheel } from "react-icons/lu";
 export default function Signup() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const localStorageUserData= JSON.parse(localStorage.getItem("userInfo"))
+  const [localStorageUserData, setLocalStorageUserData] = useState(null);
+
+  // const localStorageUserData= JSON.parse(localStorage.getItem("userInfo"))
 
   const { loading, user } = useSelector(
     (state) => state.auth
@@ -106,7 +108,15 @@ export default function Signup() {
       );
     }
   };
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userInfo = localStorage.getItem("userInfo");
 
+      if (userInfo) {
+        setLocalStorageUserData(JSON.parse(userInfo));
+      }
+    }
+  }, []);
   useEffect(() => {
     if (user && localStorageUserData) {
       router.push("/login");
