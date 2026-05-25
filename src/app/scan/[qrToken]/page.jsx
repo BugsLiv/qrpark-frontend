@@ -21,7 +21,9 @@ async function getVehicleData(qrToken) {
 
     const json = await res.json();
     return { data: json.data };
-  } catch {
+  } catch (error){
+    console.log("error",error)
+
     return { error: 'network_error' };
   }
 }

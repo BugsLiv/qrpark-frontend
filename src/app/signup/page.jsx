@@ -11,6 +11,7 @@ import { LuLoaderPinwheel } from "react-icons/lu";
 export default function Signup() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const localStorageUserData= JSON.parse(localStorage.getItem("userInfo"))
 
   const { loading, user } = useSelector(
     (state) => state.auth
@@ -29,8 +30,7 @@ export default function Signup() {
     phone: "",
     countryCode: "+92",
     email: "",
-    password: "",
-    confirmPassword: "",
+
   });
 
   const handleChange = (e) => {
@@ -69,33 +69,7 @@ export default function Signup() {
     ) {
       newErrors.email = "Invalid email address";
     }
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else {
-      if (formData.password.length < 8) {
-        newErrors.password =
-          "Password must be at least 8 characters";
-      }
 
-      if (
-        !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(
-          formData.password
-        )
-      ) {
-        newErrors.password =
-          "Password must contain uppercase, lowercase and number";
-      }
-    }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword =
-        "Confirm password is required";
-    } else if (
-      formData.password !== formData.confirmPassword
-    ) {
-      newErrors.confirmPassword =
-        "Passwords do not match";
-    }
 
     setErrors(newErrors);
 
@@ -111,7 +85,6 @@ export default function Signup() {
         phone: formData.phone,
         countryCode: formData.countryCode,
         email: formData.email,
-        password: formData.password,
       };
 
       const response = await dispatch(
@@ -135,10 +108,10 @@ export default function Signup() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && localStorageUserData) {
       router.push("/login");
     }
-  }, [user]);
+  }, [user,localStorageUserData]);
 
   return (
     <section
@@ -241,106 +214,6 @@ export default function Signup() {
           )}
         </div>
 
-     
-        <div className="mb-4">
-          <label className="block text-[14px] font-medium text-primary mb-2">
-            Password
-          </label>
-
-          <div className="relative">
-            <input
-              name="password"
-              type={
-                showPassword ? "text" : "password"
-              }
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter password"
-              className={`w-full h-[52px] rounded-md px-4 pr-12 outline-none text-[15px] border ${
-                errors.password
-                  ? "border-red-500"
-                  : "border-gray-300 focus:border-primary"
-              }`}
-            />
-
-            <button
-              type="button"
-              onClick={() =>
-                setShowPassword(!showPassword)
-              }
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              {showPassword ? (
-                <IoMdEyeOff size={20} />
-              ) : (
-                <IoMdEye size={20} />
-              )}
-            </button>
-          </div>
-
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.password}
-            </p>
-          )}
-        </div>
-
-    
-        <div className="mb-6">
-          <label className="block text-[14px] font-medium text-primary mb-2">
-            Confirm Password
-          </label>
-
-          <div className="relative">
-            <input
-              name="confirmPassword"
-              type={
-                showConfirmPassword
-                  ? "text"
-                  : "password"
-              }
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirm password"
-              className={`w-full h-[52px] rounded-md px-4 pr-12 outline-none text-[15px] border ${
-                errors.confirmPassword
-                  ? "border-red-500"
-                  : "border-gray-300 focus:border-primary"
-              }`}
-            />
-
-            <button
-              type="button"
-              onClick={() =>
-                setShowConfirmPassword(
-                  !showConfirmPassword
-                )
-              }
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              {showConfirmPassword ? (
-                <IoMdEyeOff size={20} />
-              ) : (
-                <IoMdEye size={20} />
-              )}
-            </button>
-          </div>
-
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.confirmPassword}
-            </p>
-          )}
-
-          {formData.password &&
-            formData.confirmPassword &&
-            formData.password ===
-              formData.confirmPassword && (
-              <p className="text-green-600 text-xs mt-1">
-                Password matched
-              </p>
-            )}
-        </div>
 
 
         <button

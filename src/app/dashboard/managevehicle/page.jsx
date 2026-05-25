@@ -146,10 +146,10 @@ console.log("response",response)
       <ConfirmationModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        title="Change Vehicle Details"
+        title="Download QR Code"
         description={
           <>
-            <p>Are you sure you want to disable the QR Park tag associated with this vehicle?</p>
+            <p>Are you sure you want to download the QR Park code associated with this vehicle?</p>
             <p className="mt-3">The QR code will no longer allow anyone in the app to contact you.</p>
           </>
         }

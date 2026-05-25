@@ -37,11 +37,12 @@ export default function Login() {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") handleLogin();
   };
+  const localStorageUserData= JSON.parse(localStorage.getItem("userInfo"))
   useEffect(() => {
-    if (user) {
+    if (user && localStorageUserData) {
       router.push("/dashboard");
     }
-  }, [user]);
+  }, [user,localStorageUserData]);
 
   return (
     <section

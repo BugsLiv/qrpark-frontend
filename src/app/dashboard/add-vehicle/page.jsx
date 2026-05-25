@@ -127,7 +127,9 @@ export default function AddVehiclePage() {
         //  qrToken: "",
        })
        setSelectedMakeOption(null);
-       setSelectedModalOption(null)
+       setSelectedModalOption(null);
+       router.push(`/dashboard`)
+
      }
   }
  
@@ -153,7 +155,7 @@ export default function AddVehiclePage() {
         <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-6 w-full">
            <div className="flex flex-col gap-6">
           <div>
-            <label className="block text-md font-medium text-gray-700 mb-1">Register Your Number</label>
+            <label className="block text-md font-medium text-gray-700 mb-1">Registeration Number</label>
              <input
               type="text"
               name="registrationNumber"

@@ -10,6 +10,7 @@ import { MdOutlineAddIcCall } from "react-icons/md";
 import { MdContactEmergency } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
 import { FaMessage } from "react-icons/fa6";
+import { TiThMenu } from "react-icons/ti";
 
 
 const navItems = [
@@ -61,7 +62,7 @@ export default function Sidebar({ isOpen, onClose }) {
             onClick={onClose}
             className="lg:hidden text-gray-500 hover:text-gray-700"
           >
-            <FaLocationDot size={24} />
+            <TiThMenu size={24} />
           </button>
         </div>
 

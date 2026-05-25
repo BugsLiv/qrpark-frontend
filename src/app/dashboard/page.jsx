@@ -38,9 +38,7 @@ dispatch(fetchVehicles({ page, limit }))
   return (
     <>
     <div className="py-4 px-4 ">
-      <h1 className="text-2xl font-bold text-primary">
-        Muhammad Ali
-      </h1>
+
  <div className="flex  mt-4 mb-4 border-y gap-4 border-slate-300">
   
  {Tabs.map((item) => {
@@ -105,7 +103,11 @@ dispatch(fetchVehicles({ page, limit }))
             </div>
           </div>
           <div className="flex items-center gap-3">
-          <button className="rounded-sm text-white bg-primary px-6 py-2  hover:bg-teal-600">
+          <button 
+          onClick={()=>{
+            router.push(`/dashboard/managevehicle?id=${vehicle._id}`)
+          }}
+          className="rounded-sm cursor-pointer text-white bg-primary px-6 py-2  hover:bg-teal-600">
             View QR Code
           </button>
           <button onClick={()=>{

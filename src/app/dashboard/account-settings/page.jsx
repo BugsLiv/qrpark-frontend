@@ -24,15 +24,11 @@ export default function AccountSettingsPage() {
     phone: "",
     countryCode: "+92",
     email: "",
-    password: "",
-    confirmPassword: "",
+  
   });
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -41,8 +37,6 @@ export default function AccountSettingsPage() {
         phone: user?.phone || "",
         countryCode: user?.countryCode || "+92",
         email: user?.email || "",
-        password: "",
-        confirmPassword: "",
       });
     }
   }, [user]);
@@ -86,28 +80,6 @@ export default function AccountSettingsPage() {
       newErrors.phone = "Invalid phone number";
     }
 
-    // Password validation only if user entering password
-    if (formData.password) {
-      if (formData.password.length < 8) {
-        newErrors.password =
-          "Password must be at least 8 characters long";
-      }
-
-      if (
-        !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)
-      ) {
-        newErrors.password =
-          "Password must contain uppercase, lowercase and number";
-      }
-
-      if (!formData.confirmPassword) {
-        newErrors.confirmPassword = "Please confirm password";
-      } else if (
-        formData.password !== formData.confirmPassword
-      ) {
-        newErrors.confirmPassword = "Passwords do not match";
-      }
-    }
 
     setErrors(newErrors);
 
@@ -127,9 +99,7 @@ export default function AccountSettingsPage() {
         countryCode: formData.countryCode,
       };
 
-      if (formData.password) {
-        payload.password = formData.password;
-      }
+
       
       const response = await axiosInstance.put(
         "auth/updateMe",
@@ -139,9 +109,7 @@ export default function AccountSettingsPage() {
         dispatch(updateUser(response?.data?.data))
            toast.success(response?.data?.message);
         setFormData((prev) => ({
-          ...prev,
-          password: "",
-          confirmPassword: "",
+          ...prev
         }));
       }else{
         toast.error(response?.data?.message);
@@ -307,100 +275,6 @@ onClick={() => setOpen(true)}
       />
     </button>
 </div>
-        {/* Password Section */}
-        <div className="mb-2">
-          <p className="text-sm text-primary mb-3">
-            Update your password using the fields below:
-          </p>
-
-          {/* Password */}
-          <div className="relative mb-3">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="New Password"
-              className={`w-full px-3 py-2 pr-12 bg-white border rounded-md text-sm focus:ring-2 focus:ring-primary/20 outline-none ${
-                errors.password
-                  ? "border-red-500"
-                  : "border-gray-300 focus:border-primary"
-              }`}
-            />
-
-            <button
-              type="button"
-              onClick={() =>
-                setShowPassword(!showPassword)
-              }
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              {showPassword ? (
-                <IoMdEyeOff size={18} />
-              ) : (
-                <IoMdEye size={18} />
-              )}
-            </button>
-
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.password}
-              </p>
-            )}
-          </div>
-
-          {/* Confirm Password */}
-          <div className="relative">
-            <input
-              type={
-                showConfirmPassword ? "text" : "password"
-              }
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirm Password"
-              className={`w-full px-3 py-2 pr-12 bg-white border rounded-md text-sm focus:ring-2 focus:ring-primary/20 outline-none ${
-                errors.confirmPassword
-                  ? "border-red-500"
-                  : "border-gray-300 focus:border-primary"
-              }`}
-            />
-
-            <button
-              type="button"
-              onClick={() =>
-                setShowConfirmPassword(
-                  !showConfirmPassword
-                )
-              }
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              {showConfirmPassword ? (
-                <IoMdEyeOff size={18} />
-              ) : (
-                <IoMdEye size={18} />
-              )}
-            </button>
-
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.confirmPassword}
-              </p>
-            )}
-
-            {/* Match Success */}
-            {formData.password &&
-              formData.confirmPassword &&
-              formData.password ===
-                formData.confirmPassword && (
-                <p className="text-green-600 text-xs mt-1">
-                  Password matched
-                </p>
-              )}
-          </div>
-        </div>
-
-        {/* Buttons */}
         <div className="flex gap-3 mt-6">
           <button
             onClick={handleSubmit}

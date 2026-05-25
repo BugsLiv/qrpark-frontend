@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
+import { TiThMenu } from "react-icons/ti";
 
 import Sidebar from "@/components/dashboard/Sidebar";
 
@@ -14,7 +15,7 @@ export default function DashboardLayout({ children }) {
         onClick={() => setSidebarOpen(true)}
         className="fixed top-4 left-4 z-30 p-2 bg-white rounded-md shadow-md lg:hidden"
       >
-        <FaLocationDot size={24} className="text-primary" />
+        <TiThMenu size={24} className="text-primary" />
       </button>
 
       <div className="flex flex-col lg:flex-row">
