@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function HeroSection() {
   return (
@@ -15,9 +16,11 @@ export default function HeroSection() {
           <p className="mt-6 text-2xl text-slate-700">
             Contact a car owner instantly without sharing personal numbers.
           </p>
-          <button className="mt-10 rounded-full bg-buttonbg px-10 py-4 text-xl font-semibold text-white shadow-lg">
+          <Link href={"/signup"}>
+          <button className="mt-10 cursor-pointer hover:bg-buttonbg/70 rounded-full bg-buttonbg px-10 py-4 text-xl font-semibold text-white shadow-lg">
             Register Your Vehicle
           </button>
+          </Link>
         </div>
       </div>
     </section>
