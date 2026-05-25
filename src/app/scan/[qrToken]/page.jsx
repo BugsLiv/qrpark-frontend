@@ -6,10 +6,10 @@ import ScanModal from "@/components/ScanModal/ScanModal";
 
 // SSR: fetch vehicle/owner data server-side
 async function getVehicleData(qrToken) {
-  const baseURL = process.env.NEXT_PUBLIC_API_URL;
-
+  const baseURL =await process.env.NEXT_PUBLIC_API_URL;
+console.log("baseURL",baseURL)
   try {
-    const res = await fetch(`${baseURL}qr/scan/${qrToken}`, {
+    const res = await fetch(`${baseURL}/qr/scan/${qrToken}`, {
       cache: 'no-store', // always fresh — SSR
     });
     console.log("res",res)
@@ -38,6 +38,7 @@ export async function generateMetadata({ params }) {
 export default async function ScanPage({ params }) {
   const { qrToken } = await params;
   const result = await getVehicleData(qrToken);
+  console.log("result in ScanPage",result)
 
   return <ScanModal result={result} qrToken={qrToken} />;
 }
